@@ -1,0 +1,96 @@
+\documentclass[a4paper, 12 pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[slovene]{babel}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{units}
+\usepackage{eurosym}
+\usepackage{pdfpages}
+\usepackage{comment}
+\usepackage{enumerate}
+\usepackage{mathtools}
+\usepackage{amsthm}
+
+\theoremstyle{plain}
+\newtheorem{izrek}{Izrek}
+\theoremstyle{definition}
+\newtheorem{definicija}{Definicija}
+
+\begin{document}
+\begin{titlepage}
+		\begin{center}
+		
+		\large
+		Univerza v Ljubljani\\
+		\normalsize
+		Fakulteta za matematiko in fiziko\\
+		
+		\small
+		Finančna matematika - 1. stopnja\\
+		
+		\vspace{5 cm} 
+		
+		\large
+		Matej Škerlep \\
+		
+		\vspace{0.5cm}
+		\Large
+		\textbf{Problem največje množice neodvisnih vozlišč (kratko poročilo)}
+		
+		\vspace{0.5 cm}
+		\normalsize
+		Finančni praktikum
+		
+		\vspace{1.5cm}
+		\normalsize
+		Mentorja: prof. dr. Riste Škrekovski in asist. dr. Janoš Vidali
+		
+		\vfill
+		
+		\large Ljubljana, 2019
+		
+		\end{center}
+\end{titlepage}
+
+
+\section{Navodila za delo}
+\begin{itemize}
+\item Definirajte problem največje množice nesosednjih vozlišč kot CLP in ga rešite za nekaj primerov. 
+\item Eksperimentalno rimerjajte rezultate CLP in njegove relaksacije na LP in ugotovite, za koliko se lahko razlikujejo med sabo po velikosti.
+\item Napišite algoritem za lokalno iskanje po grafu in njegov rezultate primerjajte s prejšnjimi. 
+\item Ugotovite za kako velike grafe je posamezen izmed primerov rešljiv.
+\end{itemize}
+
+\section{Definicija pojma}
+
+\begin{definicija}Naj bo $G = (V, E)$ graf in $I \subseteq V$. Množica vozlišč $I$ je \textbf{\textit{neodvisna}}, če ne vsebuje sosednjih vozlišč. 
+\newline Formalno, če za $\forall v, u \in V$, $uv \in E$ velja: $v \in I \Leftrightarrow  u \notin I$ \end{definicija}
+
+
+
+\section{Plan dela}
+\subsection{Celoštevilski linearen program}
+Celoštevilski linearen program za dani problem se glasi:
+
+
+\begin{equation*}
+\begin{array}{ll@{}ll}
+\text{max}  & \displaystyle\sum\limits_{v\in V} x_v &&\\
+\text{p.p.}	 & x_u + x_v \leq 1,		 			&&\text{za vsak par} uv \in E \\
+                 & x_v \in \{0,1\}, 	              			&&\forall v \in V
+\end{array}
+\end{equation*}
+
+
+
+\subsection{Ideja za lokalno iskanje}
+začnemo z množico nesosednjih vozlišč (naj bo to recimo $I$) in nato naključno zamenjamo eno iz vozlišč iz množice $I$ z vozliščem, ki ga v nožici ni. Pri tem upamo, da bo po zadosti menjavah eno izmed vozlišč postalo prosto. Torej ga lahko dodamo v množico $I$ in s tem njeno moč povečamo za 1.
+
+
+
+
+
+\end{document}
