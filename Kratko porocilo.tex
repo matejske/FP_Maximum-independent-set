@@ -18,6 +18,8 @@
 \newtheorem{izrek}{Izrek}
 \theoremstyle{definition}
 \newtheorem{definicija}{Definicija}
+\theoremstyle{remark}
+\newtheorem{opomba}{Opomba}
 
 \begin{document}
 \begin{titlepage}
@@ -50,7 +52,7 @@
 		
 		\vfill
 		
-		\large Ljubljana, 2019
+		\large Ljubljana, december 2019
 		
 		\end{center}
 \end{titlepage}
@@ -64,30 +66,64 @@
 \item Ugotovite za kako velike grafe je posamezen izmed primerov rešljiv.
 \end{itemize}
 
-\section{Definicija pojma}
+
+
+\section{Definicije pojmov}
 
 \begin{definicija}Naj bo $G = (V, E)$ graf in $I \subseteq V$. Množica vozlišč $I$ je \textbf{\textit{neodvisna}}, če ne vsebuje sosednjih vozlišč. 
 \newline Formalno, če za $\forall v, u \in V$, $uv \in E$ velja: $v \in I \Leftrightarrow  u \notin I$ \end{definicija}
 
 
 
-\section{Plan dela}
-\subsection{Celoštevilski linearen program}
-Celoštevilski linearen program za dani problem se glasi:
 
+\section{Dosedanje delo}
+\subsection{Celoštevilski linearen program}
 
 \begin{equation*}
 \begin{array}{ll@{}ll}
 \text{max}  & \displaystyle\sum\limits_{v\in V} x_v &&\\
-\text{p.p.}	 & x_u + x_v \leq 1,		 			&&\text{za vsak par} uv \in E \\
+\text{p.p.}	 & x_u + x_v \leq 1,		 			&&\text{za vsak par } uv \in E \\
                  & x_v \in \{0,1\}, 	              			&&\forall v \in V
 \end{array}
 \end{equation*}
 
+\begin{opomba}
+Vsakemu vozlišču $v \in V$ priredimo spremenljivko $x_v$ z vrednostmi 0 ali 1. Pri tem je $x_v = 1$ natanko tedaj ko, $v \in I$ in $x_v = 0$ natanko tedaj ko, $v \notin I$. Pogoj $x_u + x_v \leq 1$ pa nam zagotovalja, da ima vsaka povezava $uv \in E$ največ eno vozlišče v množici $I$.
+\end{opomba}
+
+
+
+\subsection{Relaksacija linearnega programa}
+V primeru relaksacije LP, pogoj $x_v \in \{0, 1\}$ zamenjamo s pogojem\\ $0 \leq x_v \leq 1$:
+
+\begin{equation*}
+\begin{array}{ll@{}ll}
+\text{max}  	& \displaystyle\sum\limits_{v\in V} x_v &&\\
+\text{p.p.}	& x_u + x_v \leq 1,		 				&&\text{za vsak par} uv \in E \\
+                 	& 0 \leq x_v \leq 1, 	              			&&\forall v \in V
+\end{array}
+\end{equation*}
+
+V tem primeru dobimo trivialno rešitev $x_v = \frac{1}{2}$ za $\forall v \in V$. Moč možice $I$ je v tem primeru enaka $\frac{|V|}{2}$, torej je  $|I| \geq \frac{|V|}{2}$ v primeru relaksacije LP. \\
+
+Kot primer neučinkovitosti relaksacije LP si oglejmo primer polnega grafa na $n$ vozliščih (t.j. graf kjer je vsako vozlišče povezano z vsemi ostalimi vozlišči). Trivialno lahko vidimo, da je moč množice $I$ v tem primeru enaka 1, saj vsebuje zgolj natanko eno vozlišče. A kot smo videli zgoraj, je optimalna moč množice $I$ za relaksacijo LP vsaj $\frac{n}{2}$.\\
+
+Zdi se torej, da nam optimalna rešitev relaksiranega LP o moči neodvisne množice vozlišč ne pove kaj dosti. Zgornjo ugotovitev bom poskušal tudi empirično preveriti.
+
+
 
 
 \subsection{Ideja za lokalno iskanje}
-začnemo z množico nesosednjih vozlišč (naj bo to recimo $I$) in nato naključno zamenjamo eno iz vozlišč iz množice $I$ z vozliščem, ki ga v nožici ni. Pri tem upamo, da bo po zadosti menjavah eno izmed vozlišč postalo prosto. Torej ga lahko dodamo v množico $I$ in s tem njeno moč povečamo za 1.
+Začnemo z množico nesosednjih vozlišč (naj bo to recimo $I$) in nato naključno zamenjamo eno iz vozlišč iz množice $I$ z vozliščem, ki ga v nožici ni. Pri tem upamo, da bo po zadosti menjavah eno izmed vozlišč postalo prosto. Torej ga lahko dodamo v množico $I$ in s tem njeno moč povečamo za 1.
+
+
+
+
+\section{Plan prihodnjega dela}
+
+V nadaljevanju nameravam zgornje dva linearna programa sprogramirati in nato izvesti poskuse na grafih. Poskusil bom pokazati, da je relaksacija LP v primeru iskanja največje množice neodvisnih vozlišč neučinkovita. Idejo za lokalno iskanje bom sprogramiral in jo poskusil še izboljšati. Rezultate CLP, relaksacije LP in lokalnega iskanja bom nato primerjal med sabo. Ugotovil bom, kateri od algoritmov je najučinkovitosti in ali se morda učinkovitosti algoritmov razlikujejo glede na velikosti grafov.
+
+
 
 
 
