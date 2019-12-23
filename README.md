@@ -12,3 +12,6 @@ Some comments:
 2. A simple local search algorithm can be as follows: start with a maximal independent set and randomly interchange a vertex from the independent set with one of its neighbours that is not in the
 independent set. One hopes that with sufficiently many such interchanges, some vertex may become free, and then we can include it in our independent set, thus enlarging it by one. One may
 find and more advanced algorithms online.
+
+
+Link: https://cocalc.com/projects/eb92e9b7-6da2-4ee7-a2b5-a275a877e2ff/files/?session=default
