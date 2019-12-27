@@ -71,6 +71,8 @@
 \tableofcontents
 
 \listoffigures
+
+\listoftables
 \newpage
 % ==========================================================
 \section{Predstavitev problema} % ============================================
@@ -167,6 +169,7 @@ def clp(graf):
     cas = kon - zac
     return [int(moc_max), sez, cas]
 \end{verbatim}
+\newpage
 
 Funkcija clp kot vhodni argument vzame nek graf. Celoštevilski linearni program najprej definiramo s funkcijo \verb|MixedIntegerLinearProgram|. Nato za vsako vozlišče priredimo binarno spremenljivko \verb|vozlisca| z vrednostmi 0 ali 1. Kriterijsko funkcijo definiramo s klicem funkcije \verb|set_objective|, omejitev za vsaki dve povezani vozlišči pa z \verb|add_constraint|. Optimalno vrednost kriterijske funkcije dobimo s \verb|CLP.solve()|, kar je hkrati tudi moč največje neodvisne množice. Vrednost $x_v$ posameznega vozlišča pa dobimo z \verb|CLP.get_values(vozlisca)|. V iskano največjo množico neodvisnih vozlišč \verb|sez| torej dodamo vozlišča z vrednostjo $x_v$ enako 1. Kot izhodni podatek na koncu dobimo seznam oblike moc najvecje neodvisne mnozice, seznam vozlisc v tej množici in čas izvedbe algoritma. Funkcija \verb|int()| nam število s plavajočo vejico zapiše v celoštevilski obliki, kar sem uporabil Zaradi težav Excela pri branju podatkov, sem uporabil funkcijo \verb|int()|, ki nam število s plavajočo vejico zapiše v celoštevilski obliki. 
 
@@ -250,7 +253,7 @@ Za začetek si oglejmo, do katerega števila vozlišč dobimo enake moči doblje
 \label{fig:enakost vseh treh} 
 \end{table}
 
-Opazno je precejšnje zmanjševanje. Vidimo, da v primeru zelo povezanega grafa, dobimo enakost zgolj še na 2 vozliščih. Glavni razlog za neenakost je relaksacija CLP, za katero je za grafe na večjem številu vozlišč ponavadi optimalna rešitev, ko imajo vsa vozlišča vrednost $\frac{1}{2}$ in posledično moč množice $I$ enaka 0. To je vidno tudi na grafih na straneh 8 - 10.
+Opazno je precejšnje zmanjševanje. Vidimo, da v primeru zelo povezanega grafa, dobimo enakost zgolj še na 2 vozliščih. Glavni razlog za neenakost je relaksacija CLP, za katero je za grafe na večjem številu vozlišč ponavadi optimalna rešitev, ko imajo vsa vozlišča vrednost $\frac{1}{2}$ in posledično moč množice $I$ enaka 0. To je vidno tudi na grafih na straneh \pageref{fig:moc0,1} - \pageref{fig:moc0,9}.
 
 \subsection{Primerjava moči množic CLP in lokalnega iskanja}
 
@@ -267,7 +270,7 @@ Bolj zanimivo si je ogledati enakost med močmi množic dobljenih s CLP in lokal
 0,7    & do 38 vozlišč  &  1\\ \hline
 0,9    & do 58 vozlišč  &  1  \\ \hline
 \end{tabular}
-\caption{Enakost moči množice vseh treh algoritmov}
+\caption{Enakost moči množic CLP in lokalnega iskanja ter največje razlike v močeh}
 \label{fig:enakost vseh treh} 
 \end{table}
 
