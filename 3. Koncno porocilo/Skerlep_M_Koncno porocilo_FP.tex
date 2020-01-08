@@ -230,9 +230,11 @@ Za razliko od zgornjih dveh algoritmov, kjer sem delal s seznamom, sem pri lokal
 \section{Rezultati} % ===================================================
 V namen analize algoritmov sem vse tri zgornje funkcije izvedel na istih naključnih grafih. Kot argumente generiranja grafa sem vzel vse možne kombinacije števila vozlišč (1 do 100) in verjetnosti povezave dveh vozlišč ($\frac{1}{10}, \frac{3}{10}, \frac{5}{10}, \frac{7}{10}$ in $\frac{9}{10}$). Pri tem sem število ponovitev lokalnega iskanja nastavil na 50.
 
-Primerjal sem moči največjih neodvisnih množic vseh treh algoritmov. Podrobnejša analiza je dostopna v datoteki $\textit{analiza\_testov.xlsx} in v prilogah na koncu poročila$, tu pa bom opisal predvsem ugotovitve.  Generalno gledano za vse rezultate testiranj velja, da je moč množice dobljene s CLP vedno večja ali enaka moči množice dobljene z lokalnim iskanjem. Algoritem relaksacije CLP od določenega števila vozlišč dalje (pri velikih verjetnostih že od 3 vozlišč naprej), skoraj vedno vrača prazno množico, kar pomeni, da je očitno optimalna vrednost kriterijske funkcije, prav, ko imajo vsa vozlišča vrednost $x_v$ enako $\frac{1}{2}$.
+Primerjal sem moči največjih neodvisnih množic vseh treh algoritmov. Podrobnejša analiza je dostopna v datoteki $\textit{analiza\_testov.xlsx}$, tu pa bom opisal predvsem ugotovitve.  Generalno gledano za vse rezultate testiranj velja, da je moč množice dobljene s CLP vedno večja ali enaka moči množice dobljene z lokalnim iskanjem. Algoritem relaksacije CLP od določenega števila vozlišč dalje (pri velikih verjetnostih že od 3 vozlišč naprej), skoraj vedno vrača prazno množico, kar pomeni, da je očitno optimalna vrednost kriterijske funkcije, prav, ko imajo vsa vozlišča vrednost $x_v$ enako $\frac{1}{2}$.
 
-\subsection{Primerjava moči množic vseh treh algoritmov}
+\subsection{Analiza algoritmov na naključnih grafih}
+
+\subsubsection{Primerjava moči množic vseh treh algoritmov}
 
 Za začetek si oglejmo, do katerega števila vozlišč dobimo enake moči dobljenih množic vseh treh algoritmov.
 
@@ -255,7 +257,7 @@ Za začetek si oglejmo, do katerega števila vozlišč dobimo enake moči doblje
 
 Opazno je precejšnje zmanjševanje. Vidimo, da v primeru zelo povezanega grafa, dobimo enakost zgolj še na 2 vozliščih. Glavni razlog za neenakost je relaksacija CLP, za katero je za grafe na večjem številu vozlišč ponavadi optimalna rešitev, ko imajo vsa vozlišča vrednost $\frac{1}{2}$ in posledično moč množice $I$ enaka 0. To je vidno tudi na grafih na straneh \pageref{fig:moc0,1} - \pageref{fig:moc0,9}.
 
-\subsection{Primerjava moči množic CLP in lokalnega iskanja}
+\subsubsection{Primerjava moči množic CLP in lokalnega iskanja}
 
 Bolj zanimivo si je ogledati enakost med močmi množic dobljenih s CLP in lokalnim iskanjem. Spodnja tabela prikazuje do katerega števila vozlišč dobimo enakosti moči in največjo razliko med močema množice $I$ dobljene s CLP in lokalnim iskanjem na vzorcu grafov od 1 do 100 vozlišč pri posamezni verjetnosti.
 
@@ -276,7 +278,7 @@ Bolj zanimivo si je ogledati enakost med močmi množic dobljenih s CLP in lokal
 
 Opazimo, lahko, da je najmanjše ujemanje pri nizkih verjetnostih povezave. Enakosti dobivamo do 34 vozlišč, sicer pa je nato do 67 vozlišč razlike v močeh največ 2. Pri grafih z verjetnostjo 0,3 se meja enakosti pomakne nekoliko navzdol, a se hkrati meja, ko je razlike v močeh največ 2, pomakne na 76 vozlišč. Pri višjih verjetnostih se začne meja enakosti precej povečevati, poleg tega pa tudi manjšati maksimalna razlika med močmi dobljenih množic. Pri verjetnosi povezave 0,9 se pojavi le 5 primerov, ko se vrednosti moči razlikujeta za 1, v ostalih primerih pa dobimo enakosti.
 
-\subsection{Grafična predstavitev rezultatov}
+\subsubsection{Grafična predstavitev rezultatov}
 
 V namen grafične predstave zgoraj povedanega sem rezultate testiranj prikazal tudi na spodnjih treh grafih, ki nam prikazujejo moči dobljenih množic v odvisnosti od števila vozlišč. Na grafu je prikazana tudi aproksimacija gibanja vrednostni s polinomom šeste stopnje. Kot sem omenil že zgoraj je za večje grafe opazen padec moči množice dobljene s relaksacijo CLP, sploh v primerih z veliko verjetnostjo povezave dveh vozlišč grafa. 
 \begin{figure}[H]
@@ -303,8 +305,7 @@ Zanimivo je, da z večanjem verjetnosti, moč največje neodvisne množice CLP i
   \label{fig:moc0,9} 
 \end{figure}
 
-\newpage
-\section{Časovna zahtevnost} % ============================================
+\subsubsection{Časovna zahtevnost na naključnih grafih} % ============================================
 Pri analizi časovne zahtevnosti sem se omejil zgolj na algoritem za lokalno iskanje. Časovne zahtevnosti CLP nisem meril, saj je izjemno neučinkovit,  prav tako ne relaksacije CLP, saj nam za velike grafe skoraj vedno vrača prazno množico.
 
 V namen analize časovne zahtevnosti algoritma lokalnega iskanja sem na grafu z verjetnostjo povezave dveh vozlišč 0,3 in 50 ponovitvami zunanje zanke izvedel algoritem. Neodvisna spremenljivka je bila torej število vozlišč, ki sem jo povečeval s korakom 50 do končne velikosti grafa z 2451 vozlišči. Meritve časa sem izvedel trikrat in nato vzel povprečje vseh treh časov pri posamezni velikosti grafa. Na grafu je prikazan tudi aproksimacijski polinom šeste stopnje in napoved za povečevanje časovne zahtevnosti za grafe do velikosti 3000 vozlišč.
@@ -317,15 +318,87 @@ V namen analize časovne zahtevnosti algoritma lokalnega iskanja sem na grafu z 
   \label{fig:casovna zahtevnost} 
 \end{figure}
 
-%Na enakih podatkih kot zgoraj sem poleg časovne zahtevnosti pogledal tudi moč največje neodvisne množice vozlišč v odvisnosti od števila vozlišč. 
 
-%\begin{figure}[H]
-%\centering
-%  \includegraphics[scale=0.29]{moc_odv_od_stvozlisc.png}
-%  \caption{Velikost največje množice neodvisnih vozlišč v odvisnosti od števila vozlišč}
-%  \label{fig:moc od vozlisc} 
-%\end{figure}
- 
+\subsection{Analiza algoritmov na Petersenovem grafu}
+V nadaljevanju sem se odločil izvesti tudi algeoritme na Petersenovem grafu. To je graf z 10 točkami in 15 povezavami. Stopnja vsake točke Petersenovega grafa je enaka 3.
+
+
+\begin{figure}[H]
+\centering
+  \includegraphics[scale=0.35]{Petersenov graf.png}
+  \caption{Petersenov graf}
+\end{figure}
+
+CLP in lokalno iskanje vedno najdeta enako moč največje neodvisne množice, medtem ko so vozlišča v njej enaka le v 10 odstotkih poskusov. Relaksacija CLP pa vedno vrača prazno množico. Časovne zahtevnosti in moči množice $I$ so podane v spodnji tabeli.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}||p{3.2cm}|p{4.7cm}|}
+\hline
+\textbf{Algoritem}  & \textbf{Moč množice $I$} & \textbf{Čas izvedbe algoritma} \\ \hline
+CLP    & 4 &  		   0.0106859 $s$\\ \hline
+Relaks. CLP    & 0  &  0.0023558 $s$   \\ \hline
+Lokalno iskanje & 4 &  0.0069702 $s$ \\ \hline
+\end{tabular}
+\caption{Moč množice I in časovna zahtevnost iskanja na Petersenovem grafu}
+\label{fig:petersenov} 
+\end{table}
+
+\subsection{Analiza algoritmov na hiperkockah}
+Pri analizi vseh treh algoritmov na hiperkockah sem pogledal največje množice neodvisnih vozlišč grafa in časovne zahtevnosti algoritmov na hiperkockah na 4, 8, 16, 32, 64 in 128 vozliščih. 
+
+\begin{figure}[H]
+\centering
+  \includegraphics[scale=0.30]{Cube graph 4.png}
+  \caption{Hiperkocka na 16 vozliščih}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}||p{1cm}|p{2.7cm}|p{3.2cm}|}
+\hline
+\textbf{Število vozlišč}  & \textbf{CLP} & \textbf{Relaks. CLP} & \textbf{Lokalno iskanje} \\ \hline
+\textbf{4}     & 2 &2  &2  \\ \hline
+\textbf{8}    & 4 & 4 &4  \\ \hline
+\textbf{16}   & 8 & 8  &8  \\ \hline
+\textbf{32}  & 16 &16  &16  \\ \hline
+\textbf{64}   & 32 & 32 &  32 \\ \hline
+\textbf{128} & 64 & 64 & 64  \\ \hline
+\end{tabular}
+\caption{Moč množice $I$ na hiperkockah}
+\label{fig:hipekocka I} 
+\end{table}
+Vidimo, da so vse tri množice $I$ ves čas enake in je njihova moč enaka ravno polovici števila vseh vozlišč grafa. To je seveda logično, saj gre za dvodelen graf. 
+
+\subsubsection{Časovna zahtevnost algoritmov na hiperkockah}
+Analiziral sem tudi časovno zahtevnost algoritmov na hiperkockah velikosti z 4 do 2048 vozlišči.
+V spodnji tabeliso prikazane časovne zahtevnosti do 128 vozlišč, v nadalnjem grafu pa so grafično prikazani še vsi rezultati.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}||p{2.8cm}|p{2.8cm}|p{3.2cm}|}
+\hline
+\textbf{Število vozlišč}  & \textbf{CLP} & \textbf{Relaks. CLP} & \textbf{Lokalno iskanje} \\ \hline
+\textbf{4}&	0.0027&	0.0011	&0.0033\\ \hline
+\textbf{8}&	0.0027	&0.0036	&0.0053\\ \hline
+\textbf{16}&0.0056	&0.0034	&0.0386\\ \hline
+\textbf{32}&0.0100&	0.0280	&0.0239\\ \hline
+\textbf{64}&0.0180	&0.0160	&0.0270\\ \hline
+\textbf{128}&0.0275	&0.0440	&0.0392\\ \hline
+\end{tabular}
+\caption{Časovna zahtevnost algoritmov na hiperkockah (v sekundah)}
+\label{fig:hipekocka I} 
+\end{table}
+
+
+\begin{figure}[H]
+\centering
+  \includegraphics[scale=0.30]{Casovna_zahtevnost_hiperkocke.png}
+  \caption{Časovna zahtevnost na hiperkockah}
+\end{figure}
+
+\section{Zaključek}
+
 
 % ==========================================================
 \end{document}
