@@ -113,7 +113,7 @@ x_v =
        0; &v \notin I\\
      \end{cases}
 \]
-Pogoj $x_u + x_v \leq 1$ nam tako zagotovalja, da ima vsaka povezava $uv \in E$ največ eno vozlišče v množici $I$. Vrednost kriterijske funkcije spodnjega CLP je enaka moči množice $I$, v njej pa so vsa vozlišča $v$ za katera je $x_v = 1$.
+Pogoj $x_u + x_v \leq 1, \ \forall uv \in E$ nam tako zagotovalja, da ima vsaka povezava $uv \in E$ največ eno vozlišče v množici $I$. Vrednost kriterijske funkcije spodnjega CLP je enaka moči množice $I$, v njej pa so vsa vozlišča $v$ za katera je $x_v = 1$.
 
 \begin{equation*}
 \begin{array}{ll@{}ll}
@@ -132,8 +132,8 @@ V primeru relaksacije LP pogoj $x_v \in \{0, 1\}$ zamenjamo s pogojem\\ $0 \leq 
 \begin{equation*}
 \begin{array}{ll@{}ll}
 \text{max}  	& \displaystyle\sum\limits_{v\in V} x_v &&\\
-\text{p.p.}	& x_u + x_v \leq 1,		 				&&\text{za vsak par} uv \in E \\
-                 	& 0 \leq x_v \leq 1, 	              			&&\forall v \in V.
+\text{p.p.}	& x_u + x_v \leq 1,		 				&&\forall uv \in E \\
+                 	& 0 \leq x_v \leq 1, 	              	&&\forall v \in V.
 \end{array}
 \end{equation*}
 
@@ -145,7 +145,7 @@ V tem primeru dobimo trivialno rešitev $x_v = \frac{1}{2}$ za $\forall v \in V$
 \subsection{Izbira programskega jezika in knjižnic}
 Algoritmi so napisani v programskem jeziku \textit{Sage}, ki temelji na programskem jeziku \textit{Python}. Uporabil sem module \textit{time} za merjenje časa za izvedbo posameznega algoritma, \textit{random} za generiranje naključnega nabor vozlišč v algoritmu lokalnega iskanja in \textit{csv} za shranjevanje rezulatov poskusov v csv obliki.
 
-V kodi sem najprej napisal vse tri funkcije \verb|clp|, \verb|rclp| in \verb|lokalno_iskanje|. Nato sem za namen testiranj napisal funkcijo \verb|testiraj|, ki na naključnem grafu (kot argumente grafa določimo število vozlišč in verjetnost povezave med dvema vozliščema) izvede vse tri zgoraj omenjene funkcije in kot rezultat vrne seznam izhodnih podatkov vseh treh funkcij. Na koncu pa je še funkcija \verb|izpis_csv|, ki rezultate testiranj zapiše v csv datoteteko. Posamezna vrstica v csv datoteki predstavlja izhodne podatke vseh treh algoritmov za graf na določenem številu vozlišč.
+V kodi sem najprej napisal vse tri funkcije \verb|clp|, \verb|rclp| in \verb|lokalno_iskanje|. Nato sem za namen testiranj napisal funkcijo \verb|testiraj|, ki na naključnem grafu (kot argumente grafa določimo število vozlišč in verjetnost povezave med dvema vozliščema) izvede vse tri zgoraj omenjene funkcije in kot rezultat vrne seznam izhodnih podatkov vseh treh funkcij. Na koncu pa je še funkcija \verb|izpis_csv|, ki rezultate testiranj zapiše v csv datoteteko. Posamezna vrstica v csv datoteki predstavlja izhodne podatke vseh treh algoritmov za graf na določenem številu vozlišč. Teste sem na koncu izvedel še na Petersenovem grafu in na hiperkockah.
 
 Za namene analize časovne zahtevnosti, so v vseh treh funkcijah uporabljeni klici \verb|time.time()|, čas celotne izvedbe posameznega algoritma pa nato dobimo kot razliko med končnim in začetnim časom (t.j. \verb|cas = kon - zac|).
 
@@ -171,7 +171,7 @@ def clp(graf):
 \end{verbatim}
 \newpage
 
-Funkcija clp kot vhodni argument vzame nek graf. Celoštevilski linearni program najprej definiramo s funkcijo \verb|MixedIntegerLinearProgram|. Nato za vsako vozlišče priredimo binarno spremenljivko \verb|vozlisca| z vrednostmi 0 ali 1. Kriterijsko funkcijo definiramo s klicem funkcije \verb|set_objective|, omejitev za vsaki dve povezani vozlišči pa z \verb|add_constraint|. Optimalno vrednost kriterijske funkcije dobimo s \verb|CLP.solve()|, kar je hkrati tudi moč največje neodvisne množice. Vrednost $x_v$ posameznega vozlišča pa dobimo z \verb|CLP.get_values(vozlisca)|. V iskano največjo množico neodvisnih vozlišč \verb|sez| torej dodamo vozlišča z vrednostjo $x_v$ enako 1. Kot izhodni podatek na koncu dobimo seznam oblike moc najvecje neodvisne mnozice, seznam vozlisc v tej množici in čas izvedbe algoritma. Funkcija \verb|int()| nam število s plavajočo vejico zapiše v celoštevilski obliki, kar sem uporabil Zaradi težav Excela pri branju podatkov, sem uporabil funkcijo \verb|int()|, ki nam število s plavajočo vejico zapiše v celoštevilski obliki. 
+Funkcija clp kot vhodni argument vzame nek graf. Celoštevilski linearni program najprej definiramo s funkcijo \verb|MixedIntegerLinearProgram|. Nato za vsako vozlišče priredimo binarno spremenljivko \verb|vozlisca| z vrednostmi 0 ali 1. Kriterijsko funkcijo definiramo s klicem funkcije \verb|set_objective|, omejitev za vsaki dve povezani vozlišči pa z \verb|add_constraint|. Optimalno vrednost kriterijske funkcije dobimo s \verb|CLP.solve()|, kar je hkrati tudi moč največje neodvisne množice. Vrednost $x_v$ posameznega vozlišča pa dobimo z \verb|CLP.get_values(vozlisca)|. V iskano največjo množico neodvisnih vozlišč \verb|sez| torej dodamo vozlišča z vrednostjo $x_v$ enako 1. Kot izhodni podatek na koncu dobimo seznam oblike moc najvecje neodvisne mnozice, seznam vozlisc v tej množici in čas izvedbe algoritma. Funkcija \verb|int()| nam število s plavajočo vejico zapiše v celoštevilski obliki, kar sem uporabil zaradi težav Excela pri branju podatkov.
 
 
 
@@ -320,7 +320,7 @@ V namen analize časovne zahtevnosti algoritma lokalnega iskanja sem na grafu z 
 
 
 \subsection{Analiza algoritmov na Petersenovem grafu}
-V nadaljevanju sem se odločil izvesti tudi algeoritme na Petersenovem grafu. To je graf z 10 točkami in 15 povezavami. Stopnja vsake točke Petersenovega grafa je enaka 3.
+V nadaljevanju sem izvedel tudi algeoritme na Petersenovem grafu. To je graf z 10 točkami in 15 povezavami. Stopnja vsake točke Petersenovega grafa je enaka 3.
 
 
 \begin{figure}[H]
@@ -349,7 +349,7 @@ Pri analizi vseh treh algoritmov na hiperkockah sem pogledal največje množice 
 
 \begin{figure}[H]
 \centering
-  \includegraphics[scale=0.30]{Cube graph 4.png}
+  \includegraphics[scale=0.40]{Cube graph 4.png}
   \caption{Hiperkocka na 16 vozliščih}
 \end{figure}
 
@@ -370,9 +370,10 @@ Pri analizi vseh treh algoritmov na hiperkockah sem pogledal največje množice 
 \end{table}
 Vidimo, da so vse tri množice $I$ ves čas enake in je njihova moč enaka ravno polovici števila vseh vozlišč grafa. To je seveda logično, saj gre za dvodelen graf. 
 
+\newpage
 \subsubsection{Časovna zahtevnost algoritmov na hiperkockah}
 Analiziral sem tudi časovno zahtevnost algoritmov na hiperkockah velikosti z 4 do 2048 vozlišči.
-V spodnji tabeliso prikazane časovne zahtevnosti do 128 vozlišč, v nadalnjem grafu pa so grafično prikazani še vsi rezultati.
+V spodnji tabeli so prikazane časovne zahtevnosti do 128 vozlišč, v nadalnjem grafu pa so grafično prikazani še vsi rezultati.
 
 \begin{table}[H]
 \centering
@@ -398,6 +399,13 @@ V spodnji tabeliso prikazane časovne zahtevnosti do 128 vozlišč, v nadalnjem 
 \end{figure}
 
 \section{Zaključek}
+Generalno gledano za vse rezultate testiranj torej velja, da je moč množice dobljene s CLP vedno večja ali enaka moči množice dobljene z lokalnim iskanjem. Na naključnih grafih in pri Petersenovem grafu je relaksacija CLP praktično neuporabna, saj prepogosto vrača prazne množice, kar pomeni, da je očitno optimalna vrednost kriterijske funkcije, ko imajo vsa vozlišča vrednost $x_v$ enako $\frac{1}{2}$. Zanimivo je, da z večanjem verjetnosti, moč največje neodvisne množice CLP in lokalnega iskanja postaja konstantna na določenih intervalih števila vozlišč. Z večanjem števila vozlišč, se moč množice tudi precej počasneje povečuje in pri zelo povezanih grafih nikoli celo ne preseže vrednosti 5.
+
+Na Petersonovem grafu pričakovano CLP in lokalno iskanje vračata optimalen rezultat, relaksacija CLP pa ponovno odpove in vrača prazno množico. Tudi v tem primeru je lokalno iskanje izrazito hitrejše od algoritma CLP.
+
+Pri hiperkockah pa zaradi dvodelnosti grafa vsi trije algoritmi vračajo enako optimalno množico, ki je seveda enaka ravno polovici moči množice vozlišč. Tudi tu je časovna zahtevnost lokalnega iskanja najmanjša. Vidimo, da se do 1000 vozlišč časi ne razlikujejo prav dosti, nato pa začne prihajati do večjih razlik.\\
+
+Priporočil bi uporabo algoritma lokalnega iskanja, saj je precej hitrejši kot CLP. Hkrati pa je tudi CLP uporaben za preproste analize na manjših grafih. Nasprotno pa bi uporabo relaksacije CLP odvsetoval, saj prepogosto prihaja do optimalne rešitve, ko imajo vsa ogljišča vrednost $\frac{1}{2}$ in nam zato njegov rezultat ne pove prav dosti.
 
 
 % ==========================================================
